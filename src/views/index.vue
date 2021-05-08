@@ -6,6 +6,9 @@
         <div class="content">
             内容
         </div>
+        <Popup top="120px" tips="编辑" icon="edit" @onClick="showEditPopup = true" />
+        <!-- eslint-disable -->
+        <EditPopup v-model:show="showEditPopup" />
     </div>
 </template>
 
@@ -14,6 +17,14 @@ import C001 from './components/cards/C001'
 export default {
     components: {
         C001
+    },
+    data() {
+        return {
+            showEditPopup: true
+        }
+    },
+    methods: {
+        
     }
 }
 </script>
