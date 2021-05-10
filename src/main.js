@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import router from './router/index'
 import App from './App.vue'
-const fs = require('fs')
 const app = createApp(App)
 
 // 全局组件自动注册
@@ -12,7 +11,7 @@ import ElementPlus from 'element-plus'
 import 'element-plus/lib/theme-chalk/index.css'
 app.use(ElementPlus)
 
-console.log(fs)
+console.log(window)
 
 import './assets/styles/reset.scss'
 
