@@ -11,8 +11,6 @@ import ElementPlus from 'element-plus'
 import 'element-plus/lib/theme-chalk/index.css'
 app.use(ElementPlus)
 
-console.log(window)
-
 import './assets/styles/reset.scss'
 
 app.use(router).mount('#app')

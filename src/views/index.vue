@@ -5,6 +5,7 @@
         </div>
         <div class="content">
             内容
+            <input ref="writ">
         </div>
         <Popup top="120px" tips="编辑" icon="edit" @onClick="showEditPopup = true" />
         <!-- eslint-disable -->
@@ -20,8 +21,11 @@ export default {
     },
     data() {
         return {
-            showEditPopup: true
+            showEditPopup: false
         }
+    },
+    mounted() {
+        
     },
     methods: {
         
