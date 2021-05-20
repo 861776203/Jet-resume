@@ -25,7 +25,11 @@ export default {
         }
     },
     mounted() {
-        
+        // this.$api.post('/updateinfo', {
+        //     id: 2
+        // }).then(() => {
+            
+        // })
     },
     methods: {
         
