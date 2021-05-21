@@ -1,19 +1,29 @@
 <template>
     <div class="C001">
         <img class="headImg" src="@/assets/images/headImg.png">
-        <p class="name">九千岁的九千岁</p>
-        <p class="address"><span>杭州</span>前端开发工程师</p>
+        <p class="name">{{ data.name||'九千岁的九千岁' }}</p>
+        <p class="address"><span>{{ data.address||'杭州' }}</span>{{ data.job||'前端开发工程师' }}</p>
         <div class="basic_info">
             <div class="title_box">
                 <img class="icon" src="@/assets/images/icons/basic_info.png">
                 <p>基本信息</p>
             </div>
+            <div v-for="(item,index) in data.basicInfo" :key="index" class="info_item">
+                <p>{{ item.title }}</p>
+                <span>{{ item.text }}</span>
+            </div>
+            <Skeleton v-show="!data.basicInfo||!data.basicInfo.length" />
         </div>
         <div class="basic_info">
             <div class="title_box">
                 <img class="icon" src="@/assets/images/icons/basic_info.png">
                 <p>联系方式</p>
             </div>
+            <div v-for="(item,index) in data.contactInfo" :key="index" class="info_item">
+                <p>{{ item.title }}</p>
+                <span class="link" :style="{'color': data.contactUrlColor||'#ccc'}" @click="toLink(item.text)">{{ item.text }}</span>
+            </div>
+            <Skeleton v-show="!data.contactInfo||!data.contactInfo.length" />
         </div>
         <div class="basic_info">
             <div class="title_box">
@@ -26,7 +36,26 @@
 
 <script>
 export default {
-
+    props: {
+        data: {
+            type: Object
+        }
+    },
+    methods: {
+        isPhoneNumber(tel) {
+            var reg = /^0?1[3|4|5|6|7|8][0-9]\d{8}$/
+            return reg.test(tel)
+        },
+        toLink(val) {
+            console.log()
+            if (this.isPhoneNumber(val)) {
+                location.href = `tel://${val}`
+            } else {
+                let isHttp = /http[s]{0,1}:\/\/([\w.]+\/?)\S*/.test(val)
+                window.open(`${isHttp ? val : `http://${val}`}`)
+            }
+        }
+    }
 }
 </script>
 <style lang='scss' scoped>
@@ -74,6 +103,29 @@ export default {
             p{
                 font-size: 17px;
                 font-weight: bold;
+            }
+        }
+        .info_item{
+            display: flex;
+            font-size: 15px;
+            margin-top: 10px;
+            color: #333;
+            font-weight: 300;
+            p{
+                width: 110px;
+                @include text-overflow(1);
+            }
+            span{
+                width: calc(100% - 110px);
+                white-space:normal;
+                word-break:break-all;
+                word-wrap:break-word;
+            }
+            .link{
+                cursor: pointer;
+                &:hover{
+                    text-decoration: underline;
+                }
             }
         }
     }

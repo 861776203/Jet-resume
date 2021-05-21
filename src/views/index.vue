@@ -1,7 +1,7 @@
 <template>
     <div class="resume_box">
         <div class="card">
-            <C001 />
+            <C001 :data="data" />
         </div>
         <div class="content">
             内容
@@ -9,27 +9,22 @@
         </div>
         <Popup top="120px" tips="编辑" icon="edit" @onClick="showEditPopup = true" />
         <!-- eslint-disable -->
-        <EditPopup v-model:show="showEditPopup" />
+        <EditPopup v-model:show="showEditPopup" :data="data" />
     </div>
 </template>
 
 <script>
 import C001 from './components/cards/C001'
+import Settings from '@/data/setting'
 export default {
     components: {
         C001
     },
     data() {
         return {
-            showEditPopup: false
+            showEditPopup: false,
+            data: Settings
         }
-    },
-    mounted() {
-        // this.$api.post('/updateinfo', {
-        //     id: 2
-        // }).then(() => {
-            
-        // })
     },
     methods: {
         

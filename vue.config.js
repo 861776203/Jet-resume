@@ -14,7 +14,6 @@ module.exports = {
     // eslint-loader 是否在保存的时候检查
     lintOnSave: true,
     runtimeCompiler: true,
-    chainWebpack: () => {},
     configureWebpack: () => {},
     // 生产环境是否生成 sourceMap 文件
     productionSourceMap: true,
@@ -63,5 +62,18 @@ export default globalSettings
     // 第三方插件配置
     pluginOptions: {
     // ...
+    },
+    chainWebpack: config => {
+        const oneOfsMap = config.module.rule('scss').oneOfs.store
+        oneOfsMap.forEach(item => {
+            item.use('sass-resources-loader')
+                .loader('sass-resources-loader')
+                .options({
+                    resources: [
+                        './src/assets/styles/resources/*.scss'
+                    ]
+                })
+                .end()
+        })
     }
 }
