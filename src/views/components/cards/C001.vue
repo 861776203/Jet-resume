@@ -30,6 +30,8 @@
                 <img class="icon" src="@/assets/images/icons/basic_info.png">
                 <p>技能点</p>
             </div>
+            <SkillTemplate :data="data" />
+            <Skeleton v-show="!data.skillInfo||!data.skillInfo.length" />
         </div>
     </div>
 </template>
@@ -63,8 +65,8 @@ export default {
     padding: 20px 15px;
     font-size: 16px;
     .headImg{
-        width: 140px;
-        height: 140px;
+        width: 130px;
+        height: 130px;
         display: block;
         margin: 0 auto;
     }
@@ -89,12 +91,12 @@ export default {
         }
     }
     .basic_info{
-        border-bottom: 1px solid #cfcfcf;
-        padding-bottom: 10px;
         margin-top: 20px;
         .title_box{
             display: flex;
             align-items: center;
+            border-bottom: 1px solid #cfcfcf;
+            padding-bottom: 10px;
             .icon{
                 width: 18px;
                 height: 18px;

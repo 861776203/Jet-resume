@@ -1,7 +1,10 @@
 import { createApp } from 'vue'
 import router from './router/index'
 import App from './App.vue'
-const app = createApp(App)
+import 'dayjs/locale/zh-cn'
+import locale from 'element-plus/lib/locale/lang/zh-cn'
+
+const app = createApp(App).use(ElementPlus, { locale })
 
 // 全局组件自动注册
 import {autoRegister} from '@/components/autoRegister'

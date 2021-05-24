@@ -45,6 +45,41 @@
                     </div>
                     <!-- <Empty v-show="!form.contactInfo || !form.contactInfo.length" description="请添加联系方式" /> -->
                 </div>
+                <div>
+                    <p class="form_title">技能点<i class="el-icon-circle-plus-outline" @click="addSkillInfo" /></p>
+                    <el-form-item prop="skillColor" label="颜色">
+                        <el-color-picker v-model="form.skillColor" />
+                    </el-form-item>
+                    <div v-for="(item,index) in form.skillInfo" :key="index" class="form_item2">
+                        <div class="left_item">
+                            <el-form-item :prop="'skillInfo.'+index+'.title'" :rules="getRules('标题')">
+                                <el-input v-model="item.title" placeholder="请输入技能标题" />
+                            </el-form-item>
+                            <el-form-item>
+                                <el-slider v-model="item.value" :step="1" :max="10" show-stops />
+                            </el-form-item>
+                        </div>
+                        <i class="el-icon-remove-outline" @click="onDel('skillInfo', index)" />
+                    </div>
+                </div>
+                <div>
+                    <p class="form_title">教育经历<i class="el-icon-circle-plus-outline" @click="addEducationInfo" /></p>
+                    <div v-for="(item,index) in form.educationInfo" :key="index" class="form_item2">
+                        <div class="left_item">
+                            <el-form-item>
+                                <el-input v-model="item.title" placeholder="请输入学校名" />
+                            </el-form-item>
+                            <el-form-item>
+                                <el-date-picker v-model="item.time" type="daterange" range-separator="至" start-placeholder="入学时间" end-placeholder="毕业时间" value-format="yyyy-MM-dd" />
+                            </el-form-item>
+                            <el-form-item>
+                                <el-input v-model="item.text" type="textarea" rows="3" placeholder="请输入详情" />
+                            </el-form-item>
+                        </div>
+                        <i class="el-icon-remove-outline" @click="onDel('educationInfo', index)" />
+                    </div>
+                    <Empty v-show="!form.educationInfo || !form.educationInfo.length" description="请添加教育经历" />
+                </div>
             </div>
         </el-form>
         <div class="drawer__footer">
@@ -92,6 +127,7 @@ export default {
         window.addEventListener('resize', () => {
             this.height = document.body.clientHeight
         })
+        // console.log(this.$dayjs(190223234).format('yyyy-MM-dd'))
     },
     methods: {
         handleClose() {
@@ -135,6 +171,22 @@ export default {
             contactInfo.push({title: '', text: ''})
             this.form.contactInfo = contactInfo
         },
+        addSkillInfo() {
+            let { skillInfo } = this.form
+            if (!skillInfo) {
+                skillInfo = []
+            }
+            skillInfo.push({title: '', value: 0})
+            this.form.skillInfo = skillInfo
+        },
+        addEducationInfo() {
+            let { educationInfo } = this.form
+            if (!educationInfo) {
+                educationInfo = []
+            }
+            educationInfo.push({title: '', text: '', time: []})
+            this.form.educationInfo = educationInfo
+        },
         onDel(key, index) {
             this.form[key].splice(index, 1)
         },
@@ -162,17 +214,37 @@ export default {
             }
         }
     }
-    .from_item{
-        display: flex;
-        .el-form-item:first-child{
-            margin-right: 20px;
-        }
-        .el-icon-remove-outline{
+    .el-icon-remove-outline{
             cursor: pointer;
             margin: 9px 0 0 15px;
             &:hover{
                 color: #409eff;
             }
+        }
+    .from_item{
+        display: flex;
+        .el-form-item:first-child{
+            margin-right: 20px;
+        }
+    }
+    .form_item2{
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        .left_item{
+            width: 81%;
+            border: 1px solid #DDDFE6;
+            border-radius: 10px;
+            padding: 20px 15px 0 15px;
+        }
+        :deep(.el-form-item__content){
+            width: 100%;
+            .el-date-editor{
+                width: 100%;
+            }
+        }
+        .el-icon-remove-outline{
+            margin-top: 0;
         }
     }
 }

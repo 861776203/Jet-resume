@@ -13,7 +13,8 @@ export default {
     }
 }
 </script>
-
-<style>
-
+<style lang='scss' scoped>
+.el-empty{
+    padding-top: 0;
+}
 </style>

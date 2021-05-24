@@ -33,25 +33,24 @@ export default {
 </script>
 <style lang='scss' scoped>
 .resume_box{
-    display: flex;
-    justify-content: center;
-    min-width: 1150px;
+    width: 1150px;
+    margin: 0 auto;
     padding-top: 20px;
 }
 .card{
     width: 320px;
-    height: 1000px;
     border: 1px solid #ccc;
-    margin-right: 30px;
     border-radius: 5px;
     box-shadow: 0 5px 20px #bbb;
+    position: absolute;
 }
 .content{
-    width: 750px;
+    width: calc(100% - 350px);
     height: 2000px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 5px 20px #bbb;
+    margin-left: 350px;
 }
 @media (max-width: 1150px){
     .resume_box{
