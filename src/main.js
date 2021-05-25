@@ -17,6 +17,9 @@ app.use(ElementPlus)
 import api from './api'
 app.config.globalProperties.$api = api
 
+import dayjs from 'dayjs'
+app.config.globalProperties.$dayjs = dayjs
+
 import './assets/styles/reset.scss'
 
 app.use(router).mount('#app')

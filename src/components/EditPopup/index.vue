@@ -70,7 +70,7 @@
                                 <el-input v-model="item.title" placeholder="请输入学校名" />
                             </el-form-item>
                             <el-form-item>
-                                <el-date-picker v-model="item.time" type="daterange" range-separator="至" start-placeholder="入学时间" end-placeholder="毕业时间" value-format="yyyy-MM-dd" />
+                                <el-date-picker v-model="item.time" type="daterange" range-separator="至" start-placeholder="入学时间" end-placeholder="毕业时间" @change="checkTime" />
                             </el-form-item>
                             <el-form-item>
                                 <el-input v-model="item.text" type="textarea" rows="3" placeholder="请输入详情" />
@@ -186,6 +186,10 @@ export default {
             }
             educationInfo.push({title: '', text: '', time: []})
             this.form.educationInfo = educationInfo
+        },
+        checkTime(e) {
+            e[0] = this.$dayjs(e[0]).format('YYYY-MM-DD')
+            e[1] = this.$dayjs(e[1]).format('YYYY-MM-DD')
         },
         onDel(key, index) {
             this.form[key].splice(index, 1)

@@ -4,8 +4,7 @@
             <C001 :data="data" />
         </div>
         <div class="content">
-            内容
-            <input ref="writ">
+            <IntroCardsTemplate :data="data" />
         </div>
         <Popup top="120px" tips="编辑" icon="edit" @onClick="showEditPopup = true" />
         <!-- eslint-disable -->
