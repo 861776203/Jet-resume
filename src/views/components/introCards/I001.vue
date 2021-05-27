@@ -8,8 +8,8 @@
             <ul>
                 <li v-for="(item, index) in data.educationInfo" :key="index" class="scholl_title">
                     <span class="top">
-                        <span>{{ item.title }}</span>
-                        <span class="time">{{ `${item.time[0]}——${item.time[1]}` }}</span>
+                        <span class="scholl_name">{{ item.title }}</span>
+                        <span class="time">{{ `${item.time[0]} — ${item.time[1]}` }}</span>
                     </span>
                     <p class="bottom">{{ item.text }}</p>
                 </li>
@@ -58,6 +58,11 @@ export default {
             font-weight: 300;
             .top{
                 margin-bottom: 25px;
+                font-weight: 500;
+                font-size: 16px;
+                .scholl_name{
+                    color: #000;
+                }
                 .time{
                     position: absolute;
                     right: 0;
@@ -65,6 +70,9 @@ export default {
             }
             .bottom{
                 margin-top: 5px;
+            }
+            &:not(:last-child) {
+                margin-bottom: 20px;
             }
         }
     }
