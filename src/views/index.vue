@@ -11,7 +11,7 @@
         <EditPopup v-model:show="showEditPopup" :data="data" />
     </div>
 </template>
- 
+  
 <script>
 import C001 from './components/cards/C001'
 import Settings from '@/data/setting'
