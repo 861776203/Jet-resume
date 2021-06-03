@@ -15,6 +15,12 @@
                 </li>
             </ul>
         </div>
+        <div class="basic_info">
+            <div class="title_box">
+                <img class="icon" src="@/assets/images/icons/basic_info.png">
+                <p>XX经历</p>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -32,6 +38,9 @@ export default {
     padding: 20px 15px;
     font-size: 16px;
     .basic_info{
+        &:not(:first-child) {
+            margin-top: 20px;
+        }
         .title_box{
             display: flex;
             align-items: center;
@@ -58,7 +67,7 @@ export default {
             font-weight: 300;
             .top{
                 margin-bottom: 25px;
-                font-weight: 500;
+                font-weight: 400;
                 font-size: 16px;
                 .scholl_name{
                     color: #000;

@@ -66,13 +66,13 @@
                     <p class="form_title">教育经历<i class="el-icon-circle-plus-outline" @click="addEducationInfo" /></p>
                     <div v-for="(item,index) in form.educationInfo" :key="index" class="form_item2">
                         <div class="left_item">
-                            <el-form-item>
+                            <el-form-item :prop="'educationInfo.'+index+'.title'" :rules="getRules('学校名')">
                                 <el-input v-model="item.title" placeholder="请输入学校名" />
                             </el-form-item>
-                            <el-form-item>
+                            <el-form-item :prop="'educationInfo.'+index+'.time'" :rules="getRules('入学时间')">
                                 <el-date-picker v-model="item.time" type="daterange" range-separator="至" start-placeholder="入学时间" end-placeholder="毕业时间" @change="checkTime" />
                             </el-form-item>
-                            <el-form-item>
+                            <el-form-item :prop="'educationInfo.'+index+'.text'" :rules="getRules('详情')">
                                 <el-input v-model="item.text" type="textarea" rows="3" placeholder="请输入详情" />
                             </el-form-item>
                         </div>
