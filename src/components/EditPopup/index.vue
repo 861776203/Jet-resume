@@ -128,7 +128,7 @@ export default {
             this.height = document.body.clientHeight
         })
         // console.log(this.$dayjs(190223234).format('yyyy-MM-dd'))
-    },
+    }, 
     methods: {
         handleClose() {
             if (!deepCompare(this.form, this.data)) {
