@@ -80,6 +80,20 @@
                     </div>
                     <Empty v-show="!form.educationInfo || !form.educationInfo.length" description="请添加教育经历" />
                 </div>
+                <div>
+                    <p class="form_title">工作经历<i class="el-icon-circle-plus-outline" @click="addEducationInfo" /></p>
+                    <div class="form_item2">
+                        <div class="left_item">
+                            <el-form-item :rules="getRules('公司名')">
+                                <el-input placeholder="请输入公司名" />
+                            </el-form-item>
+                            <el-form-item :rules="getRules('工作时间')">
+                                <el-date-picker type="daterange" range-separator="至" start-placeholder="入职时间" end-placeholder="离职时间" />
+                            </el-form-item>
+                        </div>
+                        <i class="el-icon-remove-outline" />
+                    </div>
+                </div>
             </div>
         </el-form>
         <div class="drawer__footer">
