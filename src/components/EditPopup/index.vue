@@ -2,8 +2,9 @@
     <el-drawer
         :model-value="show"
         title="编辑"
-        :before-close="handleClose" 
+        :before-close="handleClose"
         destroy-on-close
+        size="40%"
     >
         <el-form ref="form" class="form" :model="form" :rules="rules" size="small" label-suffix="：">
             <div class="drawer_box" :style="{'height': height-130+'px'}">
@@ -81,18 +82,26 @@
                     <Empty v-show="!form.educationInfo || !form.educationInfo.length" description="请添加教育经历" />
                 </div>
                 <div>
-                    <p class="form_title">工作经历<i class="el-icon-circle-plus-outline" @click="addEducationInfo" /></p>
-                    <div class="form_item2">
+                    <p class="form_title">工作经历<i class="el-icon-circle-plus-outline" @click="addJobInfo" /></p>
+                    <div v-for="(item,index) in form.jobInfo" :key="index" class="form_item2">
                         <div class="left_item">
-                            <el-form-item :rules="getRules('公司名')">
-                                <el-input placeholder="请输入公司名" />
+                            <el-form-item :prop="'jobInfo.'+index+'.title'" :rules="getRules('公司名')">
+                                <el-input v-model="item.title" placeholder="请输入公司名" />
                             </el-form-item>
-                            <el-form-item :rules="getRules('工作时间')">
-                                <el-date-picker type="daterange" range-separator="至" start-placeholder="入职时间" end-placeholder="离职时间" />
+                            <el-form-item :prop="'jobInfo.'+index+'.time'" :rules="getRules('工作时间')">
+                                <el-date-picker v-model="item.time" type="daterange" range-separator="至" start-placeholder="入职时间" end-placeholder="离职时间" @change="checkTime" />
                             </el-form-item>
+                            <el-form-item v-for="(item2, index2) in item.messages" :key="index2" :label="`描述${index2+1}`" class="describe_item show_label">
+                                <div class="label_box">
+                                    <el-input v-model="item2.text" :placeholder="`请输入描述${index2+1}`" />
+                                    <i class="el-icon-delete describe_del" />
+                                </div>
+                            </el-form-item>
+                            <div class="describe_box" @click="addDescribe(item)"><i class="el-icon-plus" />添加描述</div>
                         </div>
-                        <i class="el-icon-remove-outline" />
+                        <i class="el-icon-remove-outline" @click="onDel('jobInfo', index)" />
                     </div>
+                    <Empty v-show="!form.jobInfo || !form.jobInfo.length" description="请添加工作经历" />
                 </div>
             </div>
         </el-form>
@@ -201,6 +210,21 @@ export default {
             educationInfo.push({title: '', text: '', time: []})
             this.form.educationInfo = educationInfo
         },
+        addJobInfo() {
+            let { jobInfo } = this.form
+            if (!jobInfo) {
+                jobInfo = []
+            }
+            jobInfo.push({title: '', time: []})
+            this.form.jobInfo = jobInfo
+        },
+        addDescribe(item) {
+            if (item.messages) {
+                item.messages.push({text: ''})
+            } else {
+                item.messages = [{text: ''}]
+            }
+        },
         checkTime(e) {
             e[0] = this.$dayjs(e[0]).format('YYYY-MM-DD')
             e[1] = this.$dayjs(e[1]).format('YYYY-MM-DD')
@@ -215,6 +239,7 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
+$label-width: 70px;
 :deep(.el-form-item) {
     display: flex;
 }
@@ -231,14 +256,14 @@ export default {
                 color: #409eff;
             }
         }
-    }
+    }  
     .el-icon-remove-outline{
-            cursor: pointer;
-            margin: 9px 0 0 15px;
-            &:hover{
-                color: #409eff;
-            }
+        cursor: pointer;
+        margin: 9px 0 0 15px;
+        &:hover{
+            color: #409eff;
         }
+    }
     .from_item{
         display: flex;
         .el-form-item:first-child{
@@ -250,10 +275,13 @@ export default {
         align-items: center;
         margin-bottom: 20px;
         .left_item{
-            width: 81%;
+            width: 80%;
             border: 1px solid #DDDFE6;
             border-radius: 10px;
-            padding: 20px 15px 0 15px;
+            padding: 20px 15px;
+        }
+        :deep(.el-form-item__label){
+            width: $label-width;
         }
         :deep(.el-form-item__content){
             width: 100%;
@@ -263,6 +291,17 @@ export default {
         }
         .el-icon-remove-outline{
             margin-top: 0;
+        }
+        .show_label{
+            :deep(.el-form-item__content) {
+                width: calc(100% - $label-width);
+            }
+            .label_box{
+                display: flex;
+                align-items: center;
+                transition: .4s;
+                width: calc(100%);
+            }
         }
     }
 }
@@ -275,5 +314,28 @@ export default {
     padding: 10px 20px 10px;
     display: flex;
     justify-content: flex-end;
-} 
+}
+.describe_box{
+    width: 100%;
+    border: 1px dashed #ccc;
+    border-radius: 3px;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: .4s;
+    font-size: 14px;
+    i{
+        margin-right: 5px;
+    }
+    &:hover{
+        color: #1989fa;
+        border-color: #1989fa;
+    }
+}
+.describe_item{
+    &:hover{
+        .label_box{
+        }
+    }
+}
 </style>

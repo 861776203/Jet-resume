@@ -25,6 +25,11 @@ export default {
             data: Settings
         }
     },
+    mounted() {
+        setTimeout(() => {
+            this.showEditPopup = true
+        }, 300)
+    },
     methods: {
         
     }
