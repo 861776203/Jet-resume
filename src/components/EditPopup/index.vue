@@ -295,7 +295,7 @@ $label-width: 70px;
         .show_label{
             :deep(.el-form-item__content) {
                 width: calc(100% - $label-width);
-            } 
+            }
             .label_box{
                 display: flex;
                 align-items: center;
