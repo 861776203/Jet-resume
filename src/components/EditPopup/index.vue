@@ -8,6 +8,9 @@
     >
         <el-form ref="form" class="form" :model="form" :rules="rules" size="small" label-suffix="：">
             <div class="drawer_box" :style="{'height': height-130+'px'}">
+                <el-form-item label="头像">
+                    <ImageUpload />
+                </el-form-item>
                 <el-form-item label="姓名" prop="name">
                     <el-input v-model="form.name" placeholder="请输入姓名" />
                 </el-form-item>
@@ -30,6 +33,7 @@
                     </div>
                     <Empty v-show="!form.basicInfo || !form.basicInfo.length" description="请添加基本信息" />
                 </div>
+                <!-- 联系方式 -->
                 <div>
                     <p class="form_title">联系方式<i class="el-icon-circle-plus-outline" @click="addContacInfo" /></p>
                     <el-form-item prop="contactUrlColor" label="链接颜色">
@@ -46,6 +50,7 @@
                     </div>
                     <!-- <Empty v-show="!form.contactInfo || !form.contactInfo.length" description="请添加联系方式" /> -->
                 </div>
+                <!-- 技能点 -->
                 <div>
                     <p class="form_title">技能点<i class="el-icon-circle-plus-outline" @click="addSkillInfo" /></p>
                     <el-form-item prop="skillColor" label="颜色">
@@ -63,6 +68,7 @@
                         <i class="el-icon-remove-outline" @click="onDel('skillInfo', index)" />
                     </div>
                 </div>
+                <!-- 教育经历 -->
                 <div>
                     <p class="form_title">教育经历<i class="el-icon-circle-plus-outline" @click="addEducationInfo" /></p>
                     <div v-for="(item,index) in form.educationInfo" :key="index" class="form_item2">
@@ -81,20 +87,24 @@
                     </div>
                     <Empty v-show="!form.educationInfo || !form.educationInfo.length" description="请添加教育经历" />
                 </div>
+                <!-- 工作经历 -->
                 <div>
                     <p class="form_title">工作经历<i class="el-icon-circle-plus-outline" @click="addJobInfo" /></p>
                     <div v-for="(item,index) in form.jobInfo" :key="index" class="form_item2">
                         <div class="left_item">
                             <el-form-item :prop="'jobInfo.'+index+'.title'" :rules="getRules('公司名')">
-                                <el-input v-model="item.title" placeholder="请输入公司名" />
+                                <el-input v-model="item.title" clearable placeholder="请输入公司名" />
+                            </el-form-item>
+                            <el-form-item :prop="'jobInfo.'+index+'.position'" :rules="getRules('职位')">
+                                <el-input v-model="item.position" clearable placeholder="请输入职位" />
                             </el-form-item>
                             <el-form-item :prop="'jobInfo.'+index+'.time'" :rules="getRules('工作时间')">
                                 <el-date-picker v-model="item.time" type="daterange" range-separator="至" start-placeholder="入职时间" end-placeholder="离职时间" @change="checkTime" />
                             </el-form-item>
-                            <el-form-item v-for="(item2, index2) in item.messages" :key="index2" :label="`描述${index2+1}`" class="describe_item show_label">
+                            <el-form-item v-for="(item2, index2) in item.messages" :key="index2" :prop="'jobInfo.'+index+'.messages.'+index2+'.text'" :label="`描述${index2+1}`" :rules="getRules(`描述${index2+1}`)" class="describe_item show_label">
                                 <div class="label_box">
-                                    <el-input v-model="item2.text" :placeholder="`请输入描述${index2+1}`" />
-                                    <i class="el-icon-delete describe_del" />
+                                    <el-input v-model="item2.text" type="textarea" :placeholder="`请输入描述${index2+1}`" />
+                                    <i class="el-icon-error label_close" @click="onDelDesc(item.messages, index2)" />
                                 </div>
                             </el-form-item>
                             <div class="describe_box" @click="addDescribe(item)"><i class="el-icon-plus" />添加描述</div>
@@ -150,8 +160,7 @@ export default {
         window.addEventListener('resize', () => {
             this.height = document.body.clientHeight
         })
-        // console.log(this.$dayjs(190223234).format('yyyy-MM-dd'))
-    }, 
+    },
     methods: {
         handleClose() {
             if (!deepCompare(this.form, this.data)) {
@@ -186,6 +195,7 @@ export default {
             basicInfo.push({title: '', text: ''})
             this.form.basicInfo = basicInfo
         },
+        // 新增联系方式
         addContacInfo() {
             let { contactInfo } = this.form
             if (!contactInfo) {
@@ -194,6 +204,7 @@ export default {
             contactInfo.push({title: '', text: ''})
             this.form.contactInfo = contactInfo
         },
+        // 添加技能点
         addSkillInfo() {
             let { skillInfo } = this.form
             if (!skillInfo) {
@@ -202,6 +213,7 @@ export default {
             skillInfo.push({title: '', value: 0})
             this.form.skillInfo = skillInfo
         },
+        // 新增教育经历
         addEducationInfo() {
             let { educationInfo } = this.form
             if (!educationInfo) {
@@ -210,12 +222,13 @@ export default {
             educationInfo.push({title: '', text: '', time: []})
             this.form.educationInfo = educationInfo
         },
+        // 新增工作经历
         addJobInfo() {
             let { jobInfo } = this.form
             if (!jobInfo) {
                 jobInfo = []
             }
-            jobInfo.push({title: '', time: []})
+            jobInfo.push({title: '', position: '', time: []})
             this.form.jobInfo = jobInfo
         },
         addDescribe(item) {
@@ -225,6 +238,10 @@ export default {
                 item.messages = [{text: ''}]
             }
         },
+        onDelDesc(item, index) {
+            item.splice(index, 1)
+        },
+        // 日期插件选择格式转换
         checkTime(e) {
             e[0] = this.$dayjs(e[0]).format('YYYY-MM-DD')
             e[1] = this.$dayjs(e[1]).format('YYYY-MM-DD')
@@ -239,7 +256,7 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-$label-width: 70px;
+$label-width: 90px;
 :deep(.el-form-item) {
     display: flex;
 }
@@ -297,10 +314,23 @@ $label-width: 70px;
                 width: calc(100% - $label-width);
             }
             .label_box{
-                display: flex;
-                align-items: center;
                 transition: .4s;
-                width: calc(100%);
+                .label_close{
+                    position: absolute;
+                    color: #f56c6c;
+                    top: -6px;
+                    right: -6px;
+                    cursor: pointer;
+                    font-size: 17px;
+                    background: #fff;
+                    transition: .3s;
+                    opacity: 0;
+                }
+                &:hover{
+                    .label_close{
+                        opacity: 1;
+                    }
+                }
             }
         }
     }
@@ -324,18 +354,13 @@ $label-width: 70px;
     cursor: pointer;
     transition: .4s;
     font-size: 14px;
+    margin-top: 25px;
     i{
         margin-right: 5px;
     }
     &:hover{
         color: #1989fa;
         border-color: #1989fa;
-    }
-}
-.describe_item{
-    &:hover{
-        .label_box{
-        }
     }
 }
 </style>

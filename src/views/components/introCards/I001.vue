@@ -18,8 +18,19 @@
         <div class="basic_info">
             <div class="title_box">
                 <img class="icon" src="@/assets/images/icons/basic_info.png">
-                <p>XX经历</p>
+                <p>工作经历</p>
             </div>
+            <ul>
+                <li v-for="(item, index) in data.jobInfo" :key="index" class="job_box">
+                    <div class="job_info">
+                        <p class="job_name">[经历{{ index+1 }}]{{ item.title }} - {{ item.position }}</p>
+                        <p class="time">{{ `${item.time[0]} — ${item.time[1]}` }}</p>
+                    </div>
+                    <ul class="describe_info">
+                        <li v-for="(item2, index2) in item.messages" :key="index2">{{ item2.text }}</li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
 </template>
@@ -61,28 +72,46 @@ export default {
             padding-left: 20px;
             margin: 0;
         }
-        .scholl_title{
-            position: relative;
+    }
+    .scholl_title{
+        position: relative;
+        font-size: 15px;
+        font-weight: 300;
+        .top{
+            margin-bottom: 25px;
+            font-weight: 400;
+            font-size: 16px;
+            .scholl_name{
+                color: #000;
+            }
+            .time{
+                position: absolute;
+                right: 0;
+            }
+        }
+        .bottom{
+            margin-top: 5px;
+        }
+        &:not(:last-child) {
+            margin-bottom: 20px;
+        }
+    }
+    .job_box{
+        .job_info{
+            display: flex;
+            justify-content: space-between;
+            font-weight: 400;
+            font-size: 16px;
+        }
+        .describe_info{
             font-size: 15px;
             font-weight: 300;
-            .top{
-                margin-bottom: 25px;
-                font-weight: 400;
-                font-size: 16px;
-                .scholl_name{
-                    color: #000;
-                }
-                .time{
-                    position: absolute;
-                    right: 0;
-                }
+            li{
+                margin-top: 4px;
             }
-            .bottom{
-                margin-top: 5px;
-            }
-            &:not(:last-child) {
-                margin-bottom: 20px;
-            }
+        }
+        &:not(:last-child) {
+            margin-bottom: 20px;
         }
     }
 }

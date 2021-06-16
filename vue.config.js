@@ -2,6 +2,9 @@
 let bodyParser = require('body-parser')
 const express = require('express')
 let fs = require('fs')
+let multipart = require('connect-multiparty')
+let multipartMiddleware = multipart()
+const path = require('path')
 const app = express()
 let apiRoutes = express.Router()
 app.use('/api', apiRoutes)
@@ -32,7 +35,6 @@ module.exports = {
     pwa: {},
     // webpack-dev-server 相关配置
     devServer: {
-        // 模拟数据开始
         before(app) {
             // req.body编码解析
             app.use(bodyParser.urlencoded({ extended: true }))
@@ -47,6 +49,22 @@ export default globalSettings
                     status: 200,
                     code: 0,
                     data: true
+                })
+            })
+            app.post('/api/upload', multipartMiddleware, (req, res) => {
+                let data = req.files.file
+                // 创建可读流
+                let read = fs.createReadStream(data.path)
+                // 设置文件保存路径
+                let imgPath = path.join('./', `./src/data/upload/${data.originalFilename}`)
+                // 创建可写流
+                let upStream = fs.createWriteStream(imgPath)
+                // 可读流通过管道写入可写流
+                read.pipe(upStream)
+                res.send({
+                    status: 200,
+                    code: 0,
+                    message: '上传成功'
                 })
             })
         },
