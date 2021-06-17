@@ -8,8 +8,8 @@
     >
         <el-form ref="form" class="form" :model="form" :rules="rules" size="small" label-suffix="：">
             <div class="drawer_box" :style="{'height': height-130+'px'}">
-                <el-form-item label="头像">
-                    <ImageUpload />
+                <el-form-item label="头像" prop="headImg">
+                    <ImageUpload :url="form.headImg" :max="1" :action="action" name="file" :file-list="form.headImg" @onSuccess="(e) => { form.headImg = [e] }" />
                 </el-form-item>
                 <el-form-item label="姓名" prop="name">
                     <el-input v-model="form.name" placeholder="请输入姓名" />
@@ -144,9 +144,11 @@ export default {
             rules: {
                 name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
                 address: [{ required: true, message: '请输入地点', trigger: 'blur' }],
-                job: [{ required: true, message: '请输入职业', trigger: 'blur' }]
+                job: [{ required: true, message: '请输入职业', trigger: 'blur' }],
+                headImg: [{ required: true, message: '请上传头像', trigger: 'blur' }]
             },
-            height: document.body.clientHeight
+            height: document.body.clientHeight,
+            action: process.env.VUE_APP_API_ROOT + '/upload'
         }
     },
     watch: {
@@ -286,6 +288,9 @@ $label-width: 90px;
         .el-form-item:first-child{
             margin-right: 20px;
         }
+    }
+    :deep(.el-form-item__label) {
+        flex-shrink: 0;
     }
     .form_item2{
         display: flex;

@@ -22,8 +22,12 @@ export default {
     data() {
         return {
             showEditPopup: false,
-            data: Settings
+            data: {}
         }
+    },
+    created() {
+        Settings.headImg = Settings.headImg ? Settings.headImg.split(',') : []
+        this.data = Settings
     },
     mounted() {
         setTimeout(() => {

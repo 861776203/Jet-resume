@@ -40,11 +40,30 @@ module.exports = {
             app.use(bodyParser.urlencoded({ extended: true }))
             app.use(bodyParser.json())
             app.post('/api/updateinfo', (req, res) => {
+                // 如果有文件流先存储
+                let files = app.get('files') || {}
+                let delfiles = app.get('delfiles') || []
+                for (let key in files) {
+                    // 创建可读流
+                    let read = fs.createReadStream(files[key].path)
+                    // 设置文件保存路径
+                    let imgPath = path.join('./', `./src/data/upload/${files[key].originalFilename}`)
+                    // 创建可写流
+                    let upStream = fs.createWriteStream(imgPath)
+                    // 可读流通过管道写入可写流
+                    read.pipe(upStream)
+                }
+                if (delfiles.length) {
+                    delfiles.map(v => {
+                        fs.unlinkSync(`./src/data/upload/${v}`)
+                    })
+                }
                 let data = JSON.stringify(req.body)
                 let text = `let globalSettings = ${data}
 export default globalSettings
                 `
                 fs.writeFileSync('./src/data/setting.js', text)
+                app.set('files', [])
                 res.send({
                     status: 200,
                     code: 0,
@@ -53,14 +72,36 @@ export default globalSettings
             })
             app.post('/api/upload', multipartMiddleware, (req, res) => {
                 let data = req.files.file
-                // 创建可读流
-                let read = fs.createReadStream(data.path)
-                // 设置文件保存路径
-                let imgPath = path.join('./', `./src/data/upload/${data.originalFilename}`)
-                // 创建可写流
-                let upStream = fs.createWriteStream(imgPath)
-                // 可读流通过管道写入可写流
-                read.pipe(upStream)
+                let files = app.get('files') || {}
+                let filedir = fs.readdirSync('./src/data/upload')
+                if (files[data.originalFilename] || filedir.includes(data.originalFilename)) {
+                    res.status(500).send({
+                        status: 500,
+                        code: -1,
+                        message: '请勿上传文件名相同的图片'
+                    })
+                }
+                files[data.originalFilename] = data
+                app.set('files', files)
+                res.send({
+                    status: 200,
+                    code: 0,
+                    data: {
+                        path: data.path
+                    }
+                })
+            })
+            app.get('/api/deleteimg', (req, res) => {
+                let { filename } = req.query
+                let files = app.get('files') || {}
+                let delfiles = app.get('delfiles') || []
+                // 文件缓存中有需要删除的文件进行删除
+                if (files[filename]) {
+                    delete files[filename]
+                } else { // 文件缓存中找不到则加入删除队列
+                    delfiles.push(filename)
+                    app.set('delfiles', delfiles)
+                }
                 res.send({
                     status: 200,
                     code: 0,
