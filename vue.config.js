@@ -115,7 +115,7 @@ export default globalSettings
         https: false,
         hot: false,
         liveReload: true,
-        proxy: null// 设置代理
+        proxy: null // 设置代理
 
     },
     // 第三方插件配置
