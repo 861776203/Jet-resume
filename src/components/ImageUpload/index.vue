@@ -1,7 +1,7 @@
 <template>
     <div class="upload-container">
-        <div v-for="(item, index) in fileList" :key="index" class="images">
-            <el-image v-if="index < max" :src="item" :style="`width:${width}px;height:${height}px;`" fit="cover" />
+        <div v-for="(item, index) in url" :key="index" class="images">
+            <el-image v-if="index < max" :src="getImg(item)" :style="`width:${width}px;height:${height}px;`" fit="cover" />
             <div class="mask">
                 <div class="actions">
                     <span title="预览" @click="preview(index)">
@@ -109,17 +109,11 @@ export default {
         return {
             dialogImageUrl: '',
             imageViewerVisible: false,
-            fileList: [],
             progress: {
                 preview: '',
                 percent: 0
             }
         }
-    },
-    created() {
-        this.url.map(v => {
-            this.fileList.push(require(`@/data/upload/${v}`))
-        })
     },
     methods: {
         // 预览
@@ -129,6 +123,7 @@ export default {
         },
         // 移除
         remove(index) {
+            console.log(url[index])
             let url = this.url
             this.$api.get('/deleteimg', {
                 params: {
@@ -136,11 +131,16 @@ export default {
                 }
             })
             url.splice(index, 1)
-            this.fileList.splice(index, 1)
             this.$emit('update:url', url)
         },
         getImg(url) {
-            return require(`@/data/upload/${url}`)
+            let img = ''
+            try {
+                img = require(`@/data/upload/${url}`)
+            } catch (e) {
+                return img
+            }
+            return img
         },
         beforeUpload(file) {
             const fileName = file.name.split('.')
@@ -166,9 +166,6 @@ export default {
             }
         },
         onSuccess(res, file) {
-            let path = res.data.path
-            console.log(path)
-            this.fileList.push(require(path))
             this.$emit('onSuccess', file.name)
         },
         onError(res) {

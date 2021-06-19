@@ -20,6 +20,10 @@ module.exports = {
     configureWebpack: () => {},
     // 生产环境是否生成 sourceMap 文件
     productionSourceMap: true,
+    chainWebpack: config => {
+        // 修复HMR
+        config.resolve.symlinks(true)
+    },
     // css相关配置
     css: {
         // 是否使用css分离插件 ExtractTextPlugin
@@ -40,25 +44,14 @@ module.exports = {
             app.use(bodyParser.urlencoded({ extended: true }))
             app.use(bodyParser.json())
             app.post('/api/updateinfo', (req, res) => {
-                // 如果有文件流先存储
-                let files = app.get('files') || {}
-                let delfiles = app.get('delfiles') || []
-                for (let key in files) {
-                    // 创建可读流
-                    let read = fs.createReadStream(files[key].path)
-                    // 设置文件保存路径
-                    let imgPath = path.join('./', `./src/data/upload/${files[key].originalFilename}`)
-                    // 创建可写流
-                    let upStream = fs.createWriteStream(imgPath)
-                    // 可读流通过管道写入可写流
-                    read.pipe(upStream)
-                }
-                if (delfiles.length) {
-                    delfiles.map(v => {
-                        fs.unlinkSync(`./src/data/upload/${v}`)
-                    })
-                }
                 let data = JSON.stringify(req.body)
+                // 图片垃圾回收
+                let filedir = fs.readdirSync('./src/data/upload')
+                let uploadfile = [req.body.headImg]
+                let delList = filedir.filter(val => { return uploadfile.indexOf(val) === -1 })
+                delList.map(v => {
+                    fs.unlinkSync(`./src/data/upload/${v}`)
+                })
                 let text = `let globalSettings = ${data}
 export default globalSettings
                 `
@@ -72,17 +65,14 @@ export default globalSettings
             })
             app.post('/api/upload', multipartMiddleware, (req, res) => {
                 let data = req.files.file
-                let files = app.get('files') || {}
-                let filedir = fs.readdirSync('./src/data/upload')
-                if (files[data.originalFilename] || filedir.includes(data.originalFilename)) {
-                    res.status(500).send({
-                        status: 500,
-                        code: -1,
-                        message: '请勿上传文件名相同的图片'
-                    })
-                }
-                files[data.originalFilename] = data
-                app.set('files', files)
+                // 创建可读流
+                let read = fs.createReadStream(data.path)
+                // 设置文件保存路径
+                let imgPath = path.join('./', `./src/data/upload/${data.originalFilename}`)
+                // 创建可写流
+                let upStream = fs.createWriteStream(imgPath)
+                // 可读流通过管道写入可写流
+                read.pipe(upStream)
                 res.send({
                     status: 200,
                     code: 0,
@@ -93,27 +83,27 @@ export default globalSettings
             })
             app.get('/api/deleteimg', (req, res) => {
                 let { filename } = req.query
-                let files = app.get('files') || {}
-                let delfiles = app.get('delfiles') || []
-                // 文件缓存中有需要删除的文件进行删除
-                if (files[filename]) {
-                    delete files[filename]
-                } else { // 文件缓存中找不到则加入删除队列
-                    delfiles.push(filename)
-                    app.set('delfiles', delfiles)
+                let filedir = fs.readdirSync('./src/data/upload')
+                if (filedir.includes(filename)) {
+                    fs.unlinkSync(`./src/data/upload/${filename}`)
+                    res.send({
+                        status: 200,
+                        code: 0,
+                        message: '删除成功'
+                    })
                 }
                 res.send({
                     status: 200,
-                    code: 0,
-                    message: '上传成功'
+                    code: -1,
+                    message: '系统错误'
                 })
             })
         },
         open: true,
         host: '0.0.0.0',
         port: 8080,
+        hot: true,
         https: false,
-        hot: false,
         liveReload: true,
         proxy: null // 设置代理
 
@@ -122,6 +112,7 @@ export default globalSettings
     pluginOptions: {
     // ...
     },
+    // eslint-disable-next-line no-dupe-keys
     chainWebpack: config => {
         const oneOfsMap = config.module.rule('scss').oneOfs.store
         oneOfsMap.forEach(item => {

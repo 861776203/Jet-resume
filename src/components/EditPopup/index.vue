@@ -144,8 +144,7 @@ export default {
             rules: {
                 name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
                 address: [{ required: true, message: '请输入地点', trigger: 'blur' }],
-                job: [{ required: true, message: '请输入职业', trigger: 'blur' }],
-                headImg: [{ required: true, message: '请上传头像', trigger: 'blur' }]
+                job: [{ required: true, message: '请输入职业', trigger: 'blur' }]
             },
             height: document.body.clientHeight,
             action: process.env.VUE_APP_API_ROOT + '/upload'
@@ -182,6 +181,7 @@ export default {
         onSubmit() {
             this.$refs['form'].validate(valid => {
                 if (valid) {
+                    this.form.headImg = this.form.headImg.join(',')
                     this.$api.post('/updateinfo', this.form).then(() => {
                         this.$message.success('保存成功')
                         this.$emit('update:show', false)
