@@ -56,7 +56,6 @@ module.exports = {
 export default globalSettings
                 `
                 fs.writeFileSync('./src/data/setting.js', text)
-                app.set('files', [])
                 res.send({
                     status: 200,
                     code: 0,
@@ -86,16 +85,11 @@ export default globalSettings
                 let filedir = fs.readdirSync('./src/data/upload')
                 if (filedir.includes(filename)) {
                     fs.unlinkSync(`./src/data/upload/${filename}`)
-                    res.send({
-                        status: 200,
-                        code: 0,
-                        message: '删除成功'
-                    })
                 }
                 res.send({
                     status: 200,
-                    code: -1,
-                    message: '系统错误'
+                    code: 0,
+                    message: '删除成功'
                 })
             })
         },

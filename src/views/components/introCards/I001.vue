@@ -22,12 +22,30 @@
             </div>
             <ul>
                 <li v-for="(item, index) in data.jobInfo" :key="index" class="job_box">
-                    <div class="job_info">
-                        <p class="job_name">[经历{{ index+1 }}]{{ item.title }} - {{ item.position }}</p>
+                    <div class="info">
+                        <p class="name">[经历{{ index+1 }}]{{ item.title }} - {{ item.position }}</p>
                         <p class="time">{{ `${item.time[0]} — ${item.time[1]}` }}</p>
                     </div>
                     <ul class="describe_info">
                         <li v-for="(item2, index2) in item.messages" :key="index2">{{ item2.text }}</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="basic_info">
+            <div class="title_box">
+                <img class="icon" src="@/assets/images/icons/basic_info.png">
+                <p>项目经历</p>
+            </div>
+            <ul>
+                <li v-for="(item, index) in data.projectInfo" :key="index" class="project_box">
+                    <div class="info">
+                        <p class="name">{{ item.title }} <span class="demo" :style="{'color': data.projectUrlColor||'#25A9EB'}" @click="toUrl(item.url)">Demo</span></p>
+                        <p class="time">{{ `${item.time[0]} — ${item.time[1]}` }}</p>
+                    </div>
+                    <ul class="describe_info">
+                        <li>技术栈：{{ item.skills }}</li>
+                        <li>简介：{{ item.intro }}</li>
                     </ul>
                 </li>
             </ul>
@@ -40,6 +58,11 @@ export default {
     props: {
         data: {
             type: Object
+        }
+    },
+    methods: {
+        toUrl(url) {
+            window.open(url)
         }
     }
 }
@@ -96,8 +119,8 @@ export default {
             margin-bottom: 20px;
         }
     }
-    .job_box{
-        .job_info{
+    .job_box, .project_box{
+        .info{
             display: flex;
             justify-content: space-between;
             font-weight: 400;
@@ -112,6 +135,14 @@ export default {
         }
         &:not(:last-child) {
             margin-bottom: 20px;
+        }
+        .demo{
+            border: 1px solid;
+            border-radius: 4px;
+            padding: 0 5px;
+            font-size: 13px;
+            margin-left: 10px;
+            cursor: pointer;
         }
     }
 }

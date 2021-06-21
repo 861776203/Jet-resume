@@ -123,15 +123,16 @@ export default {
         },
         // 移除
         remove(index) {
-            console.log(url[index])
-            let url = this.url
-            this.$api.get('/deleteimg', {
-                params: {
-                    filename: url[index]
-                }
-            })
-            url.splice(index, 1)
-            this.$emit('update:url', url)
+            this.$confirm('确认删除图片吗？', '确认信息').then(() => {
+                let url = this.url
+                this.$api.get('/deleteimg', {
+                    params: {
+                        filename: url[index]
+                    }
+                })
+                url.splice(index, 1)
+                this.$emit('update:url', url)
+            }).catch(() => {})
         },
         getImg(url) {
             let img = ''

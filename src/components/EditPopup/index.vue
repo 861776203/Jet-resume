@@ -113,6 +113,34 @@
                     </div>
                     <Empty v-show="!form.jobInfo || !form.jobInfo.length" description="请添加工作经历" />
                 </div>
+                <!-- 项目经历 -->
+                <div>
+                    <p class="form_title">项目经历<i class="el-icon-circle-plus-outline" @click="addProjectInfo" /></p>
+                    <el-form-item prop="projectUrlColor" label="链接颜色">
+                        <el-color-picker v-model="form.projectUrlColor" />
+                    </el-form-item>
+                    <div v-for="(item, index) in form.projectInfo" :key="index" class="form_item2">
+                        <div class="left_item">
+                            <el-form-item :prop="'projectInfo.'+index+'.title'" :rules="getRules('项目名称')">
+                                <el-input v-model="item.title" placeholder="请输入项目名称" />
+                            </el-form-item>
+                            <el-form-item :prop="'projectInfo.'+index+'.url'" :rules="getRules('项目链接')">
+                                <el-input v-model="item.url" placeholder="请输入项目链接" />
+                            </el-form-item>
+                            <el-form-item :prop="'projectInfo.'+index+'.time'" :rules="getRules('项目时间')">
+                                <el-date-picker v-model="item.time" type="daterange" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" @change="checkTime" />
+                            </el-form-item>
+                            <el-form-item :prop="'projectInfo.'+index+'.skills'" :rules="getRules('技术栈')">
+                                <el-input v-model="item.skills" placeholder="请输入技术栈" />
+                            </el-form-item>
+                            <el-form-item :prop="'projectInfo.'+index+'.intro'" :rules="getRules('简介')">
+                                <el-input v-model="item.intro" placeholder="请输入简介" />
+                            </el-form-item>
+                        </div>
+                        <i class="el-icon-remove-outline" @click="onDel('projectInfo', index)" />
+                    </div>
+                    <Empty v-show="!form.projectInfo || !form.projectInfo.length" description="请添加项目经历" />
+                </div>
             </div>
         </el-form>
         <div class="drawer__footer">
@@ -232,6 +260,15 @@ export default {
             }
             jobInfo.push({title: '', position: '', time: []})
             this.form.jobInfo = jobInfo
+        },
+        // 新增项目经历
+        addProjectInfo() {
+            let { projectInfo } = this.form
+            if (!projectInfo) {
+                projectInfo = []
+            }
+            projectInfo.push({title: '', url: '', time: [], skills: '', intro: ''})
+            this.form.projectInfo = projectInfo
         },
         addDescribe(item) {
             if (item.messages) {
