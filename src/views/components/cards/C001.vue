@@ -1,6 +1,6 @@
 <template>
     <div class="C001">
-        <Avatar :width="130" :height="130" :src="data.headImg" />
+        <Avatar :size="130" :url="data.headImg[0]" />
         <!-- <img class="headImg" src="@/assets/images/headImg.png"> -->
         <p class="name">{{ data.name||'九千岁的九千岁' }}</p>
         <p class="address"><span>{{ data.address||'杭州' }}</span>{{ data.job||'前端开发工程师' }}</p>

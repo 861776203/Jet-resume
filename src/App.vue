@@ -1,18 +1,25 @@
 <template>
-    <div id="app">
+    <div id="app" v-loading="state.loading">
         <RouterView />
     </div>
 </template>
 
 <script>
-import store from '@/store/index'
-import { provide } from 'vue'
+import { inject } from 'vue'
 export default {
     name: 'App',
     setup() {
-        store.map(v => {
-            provide(v.name, v.module)
-        })
+        let {state} = inject('global')
+        return {
+            state
+        }
     }
 }
 </script>
+<style lang='scss' scoped>
+#app{
+    padding-bottom: 40px;
+    background-image: url('./assets/images/bgs/bg1.png');
+    // background-size: 100% 100%;
+}
+</style>

@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, reactive } from 'vue'
 import router from './router/index'
 import App from './App.vue'
 import 'dayjs/locale/zh-cn'
@@ -19,6 +19,12 @@ app.config.globalProperties.$api = api
 
 import dayjs from 'dayjs'
 app.config.globalProperties.$dayjs = dayjs
+
+// 全局store注册
+import store from '@/store/index'
+store.map(v => {
+    app.provide(v.name, reactive(v.module()))
+})
 
 import './assets/styles/reset.scss'
 

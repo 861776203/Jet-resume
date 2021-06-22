@@ -1,20 +1,13 @@
-import { reactive } from 'vue'
-
 export default function global() {
-    const state = reactive({
-        name: 'aaoo'
-    })
-    const setName = () => {
-        return new Promise(resolve => {
-            setTimeout(() => {
-                state.name = '豆豆鸡'
-                resolve()
-            }, 2000)
-        })
+    const state = {
+        loading: false
+    }
+    const setLoading = flag => {
+        state.loading = flag
     }
 
     return {
         state,
-        setName
+        setLoading
     }
 }

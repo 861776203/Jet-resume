@@ -42,6 +42,7 @@ export default {
     border-radius: 50%;
     position: fixed;
     right: 20px;
+    background: #fff;
     box-shadow: 0px 1px 20px 0px rgb(0 0 0 / 10%), inset 0px -1px 0px 0px rgb(0 0 0 / 10%);
     margin-bottom: 6px;
     cursor: pointer;
