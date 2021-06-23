@@ -17,7 +17,7 @@
         </div>
         <div class="basic_info">
             <div class="title_box">
-                <img class="icon" src="@/assets/images/icons/basic_info.png">
+                <img class="icon" src="@/assets/images/icons/phone.png">
                 <p>联系方式</p>
             </div>
             <div v-for="(item,index) in data.contactInfo" :key="index" class="info_item">
@@ -28,7 +28,7 @@
         </div>
         <div class="basic_info">
             <div class="title_box">
-                <img class="icon" src="@/assets/images/icons/basic_info.png">
+                <img class="icon" src="@/assets/images/icons/skill.png">
                 <p>技能点</p>
             </div>
             <SkillTemplate :data="data" />

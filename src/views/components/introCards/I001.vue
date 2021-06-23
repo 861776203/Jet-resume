@@ -2,7 +2,7 @@
     <div class="I001">
         <div class="basic_info">
             <div class="title_box">
-                <img class="icon" src="@/assets/images/icons/basic_info.png">
+                <img class="icon" src="@/assets/images/icons/school.png">
                 <p>教育经历</p>
             </div>
             <ul>
@@ -17,7 +17,7 @@
         </div>
         <div class="basic_info">
             <div class="title_box">
-                <img class="icon" src="@/assets/images/icons/basic_info.png">
+                <img class="icon" src="@/assets/images/icons/job.png">
                 <p>工作经历</p>
             </div>
             <ul>
@@ -34,7 +34,7 @@
         </div>
         <div class="basic_info">
             <div class="title_box">
-                <img class="icon" src="@/assets/images/icons/basic_info.png">
+                <img class="icon" src="@/assets/images/icons/project.png">
                 <p>项目经历</p>
             </div>
             <ul>

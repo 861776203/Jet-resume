@@ -1,8 +1,9 @@
+import { reactive } from 'vue'
 export default function global() {
-    const state = {
+    const state = reactive({
         loading: false
-    }
-    const setLoading = flag => {
+    })
+    function setLoading(flag) {
         state.loading = flag
     }
 
