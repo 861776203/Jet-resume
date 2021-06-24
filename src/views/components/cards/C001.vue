@@ -1,5 +1,5 @@
 <template>
-    <div class="C001">
+    <div class="C001" :style="{ '--is-mobile': type }">
         <Avatar :size="130" :url="data.headImg[0]" />
         <!-- <img class="headImg" src="@/assets/images/headImg.png"> -->
         <p class="name">{{ data.name||'九千岁的九千岁' }}</p>
@@ -42,8 +42,14 @@ export default {
     props: {
         data: {
             type: Object
+        },
+        type: {
+            type: String
         }
     },
+    // created() {
+    //     console.log(this.type)
+    // },
     methods: {
         isPhoneNumber(tel) {
             var reg = /^0?1[3|4|5|6|7|8][0-9]\d{8}$/
@@ -62,6 +68,7 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
+$isMobile: var(--is-mobile);
 .C001{
     padding: 20px 15px;
     font-size: 16px;
@@ -104,7 +111,8 @@ export default {
                 margin-right: 4px;
             }
             p{
-                font-size: 17px;
+                @debug $isMobile;
+                font-size: auto-size($isMobile, 17);
                 font-weight: bold;
             }
         }

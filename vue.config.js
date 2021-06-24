@@ -52,9 +52,7 @@ module.exports = {
                 delList.map(v => {
                     fs.unlinkSync(`./src/data/upload/${v}`)
                 })
-                let text = `let globalSettings = ${data}
-export default globalSettings
-                `
+                let text = `/* eslint-disable */\nlet globalSettings = ${data}\nexport default globalSettings`
                 fs.writeFileSync('./src/data/setting.js', text)
                 res.send({
                     status: 200,
