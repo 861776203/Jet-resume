@@ -2,8 +2,8 @@
     <el-dialog title="预览" :model-value="show">
         <div class="pdf_box">
             <div id="pdf_box">
-                <CardsTemplate :data="data" :type="'mobile'" />
-                <IntroCardsTemplate :data="data" type="mobile" />
+                <CardsTemplate :data="data" :type="'pdf'" />
+                <IntroCardsTemplate :data="data" type="pdf" />
             </div>
         </div>
         <template #footer>
@@ -30,6 +30,11 @@ export default {
             default: () => {
                 return {}
             }
+        }
+    },
+    data() {
+        return {
+            url: location.href
         }
     },
     methods: {

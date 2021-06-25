@@ -1,5 +1,5 @@
 <template>
-    <div class="I001">
+    <div :class="['I001', tempClass]">
         <div class="basic_info">
             <div class="title_box">
                 <img class="icon" src="@/assets/images/icons/school.png">
@@ -54,15 +54,35 @@
 </template>
 
 <script>
+import { computed, getCurrentInstance } from 'vue'
 export default {
     props: {
         data: {
             type: Object
+        },
+        type: {
+            type: String
         }
     },
-    methods: {
-        toUrl(url) {
+    setup() {
+        let { proxy } = getCurrentInstance()
+        let { state } = proxy.$inject('global')
+        let tempClass = computed(() => {
+            let className = ''
+            if (proxy.type === 'pdf') {
+                className = 'I001-pdf'
+            } else if (state.isMobile) {
+                className = 'I001-mobile'
+            }
+            return className
+        })
+        function toUrl(url) {
             window.open(url)
+        }
+        return {
+            state,
+            tempClass,
+            toUrl
         }
     }
 }
@@ -131,6 +151,103 @@ export default {
             font-weight: 300;
             li{
                 margin-top: 4px;
+            }
+        }
+        &:not(:last-child) {
+            margin-bottom: 20px;
+        }
+        .demo{
+            border: 1px solid;
+            border-radius: 4px;
+            padding: 0 5px;
+            font-size: 13px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+    }
+}
+.I001-pdf{
+    padding: 0 7px 10px 7px;
+    .basic_info{
+        margin-top: 8px!important;
+        .title_box{
+            padding-bottom: 4px;
+            .icon{
+                width: 9px;
+                height: 9px;
+                margin-right: 2px;
+            }
+            p{
+                font-size: 12px;
+                transform: scale(.8);
+                transform-origin: 0 0;
+            }
+        }
+    }
+    ul{
+        padding-left: 15px!important;
+        list-style-type: none;
+    }
+    .scholl_title{
+        font-size: 12px;
+        .top{
+            margin-bottom: 25px;
+            .scholl_name{
+                color: #000;
+                font-size: 12px;
+            }
+            .time{
+                font-size: 12px;
+            }
+        }
+        .bottom{
+            margin-top: 5px;
+            font-size: 12px;
+        }
+        &:not(:last-child) {
+            margin-bottom: 20px;
+        }
+        &::before{
+            content: '';
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #000;
+            position: absolute;
+            left: -8px;
+            top: 12px;
+        }
+    }
+    .job_box, .project_box{
+        .info{
+            font-size: 12px;
+            position: relative;
+            &::before{
+                content: '';
+                width: 4px;
+                height: 4px;
+                border-radius: 50%;
+                background: #000;
+                position: absolute;
+                left: -8px;
+                top: 9px;
+            }
+        }
+        .describe_info{
+            font-size: 12px;
+            li{
+                margin-top: 4px;
+                position: relative;
+                &::before{
+                    content: '';
+                    width: 3px;
+                    height: 3px;
+                    border-radius: 50%;
+                    border: 1px solid #000;
+                    position: absolute;
+                    left: -8px;
+                    top: 9px;
+                }
             }
         }
         &:not(:last-child) {

@@ -1,7 +1,6 @@
 <template>
-    <div class="C001" :style="{ '--is-mobile': type }">
+    <div :class="['C001', tempClass]">
         <Avatar :size="130" :url="data.headImg[0]" />
-        <!-- <img class="headImg" src="@/assets/images/headImg.png"> -->
         <p class="name">{{ data.name||'九千岁的九千岁' }}</p>
         <p class="address"><span>{{ data.address||'杭州' }}</span>{{ data.job||'前端开发工程师' }}</p>
         <div class="basic_info">
@@ -31,7 +30,7 @@
                 <img class="icon" src="@/assets/images/icons/skill.png">
                 <p>技能点</p>
             </div>
-            <SkillTemplate :data="data" />
+            <SkillTemplate :data="data" :type="type" />
             <Skeleton v-show="!data.skillInfo||!data.skillInfo.length" />
         </div>
     </div>
@@ -47,16 +46,29 @@ export default {
             type: String
         }
     },
-    // created() {
-    //     console.log(this.type)
-    // },
+    data() {
+        let { state } = this.$inject('global')
+        return {
+            state
+        }
+    },
+    computed: {
+        tempClass() {
+            let className = ''
+            if (this.type === 'pdf') {
+                className = 'C001-pdf'
+            } else if (this.state.isMobile) {
+                className = 'C001-mobile'
+            }
+            return className
+        }
+    },
     methods: {
         isPhoneNumber(tel) {
             var reg = /^0?1[3|4|5|6|7|8][0-9]\d{8}$/
             return reg.test(tel)
         },
         toLink(val) {
-            console.log()
             if (this.isPhoneNumber(val)) {
                 location.href = `tel://${val}`
             } else {
@@ -68,16 +80,9 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-$isMobile: var(--is-mobile);
 .C001{
     padding: 20px 15px;
     font-size: 16px;
-    .headImg{
-        width: 130px;
-        height: 130px;
-        display: block;
-        margin: 0 auto;
-    }
     .name{
         text-align: center;
         margin: 10px 0 5px 0;
@@ -111,8 +116,7 @@ $isMobile: var(--is-mobile);
                 margin-right: 4px;
             }
             p{
-                @debug $isMobile;
-                font-size: auto-size($isMobile, 17);
+                font-size: 17px;
                 font-weight: bold;
             }
         }
@@ -137,6 +141,53 @@ $isMobile: var(--is-mobile);
                 &:hover{
                     text-decoration: underline;
                 }
+            }
+        }
+    }
+}
+
+.C001-pdf{
+    padding: 10px 7px;
+    .avatar{
+        width: 60px!important;
+        height: 60px!important;
+    }
+    .name,.address{
+        font-size: 12px;
+        transform: scale(.8);
+    }
+    .name{
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    .address{
+        margin-bottom: 3px;
+    }
+    .basic_info{
+        margin-top: 8px;
+        .title_box{
+            padding-bottom: 4px;
+            .icon{
+                width: 9px;
+                height: 9px;
+                margin-right: 2px;
+            }
+            p{
+                font-size: 12px;
+                transform: scale(.8);
+                transform-origin: 0 0;
+            }
+        }
+        .info_item{
+            font-size: 12px;
+            margin-top: 4px;
+            p{
+                width: 60px;
+                transform: scale(.8);
+            }
+            span{
+                transform: scale(.8);
+                margin-left: -20px;
             }
         }
     }

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :class="['S001', tempClass]">
         <div v-for="(item,index) in data.skillInfo" :key="index" class="rate_box">
             <p class="rate_title">{{ item.title }}</p>
             <div class="rate_values">
@@ -10,11 +10,32 @@
 </template>
 
 <script>
+import { computed, getCurrentInstance } from 'vue'
 export default {
     name: 'S001',
     props: {
         data: {
             type: Object
+        },
+        type: {
+            type: String
+        }
+    },
+    setup() {
+        let { proxy } = getCurrentInstance()
+        let { state } = proxy.$inject('global')
+        let tempClass = computed(() => {
+            let className = ''
+            if (proxy.type === 'pdf') {
+                className = 'S001-pdf'
+            } else if (state.isMobile) {
+                className = 'S001-mobile'
+            }
+            return className
+        })
+        return {
+            state,
+            tempClass
         }
     }
 }
@@ -36,6 +57,21 @@ export default {
         height: 15px;
         p{
             height: 100%;
+        }
+    }
+}
+.S001-pdf{
+    display: flex;
+    .rate_box{
+        width: 31%;
+        .rate_title{
+            font-size: 12px;
+            transform: scale(.8);
+            width: 70px;
+            text-align: right;
+        }
+        .rate_values{
+            height: 8px;
         }
     }
 }

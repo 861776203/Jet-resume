@@ -27,6 +27,10 @@ export default {
     props: {
         data: {
             type: Object
+        },
+        type: {
+            type: String,
+            default: 'pc'
         }
     }
 }

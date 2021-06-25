@@ -9,7 +9,7 @@
             </div>
         </div>
         <Popup top="120px" tips="编辑" icon="edit" @onClick="showEditPopup = true" />
-        <Popup top="180px" tips="下载PDF" icon="pdf" @onClick="downPDF" />
+        <Popup top="180px" tips="下载PDF" icon="pdf" @onClick="showPDF" />
         <!-- eslint-disable -->
         <EditPopup v-model:show="showEditPopup" :data="data" />
         <PdfPopup v-model:show="showPdfPopup" :data="data" />
@@ -21,18 +21,20 @@ import { inject } from 'vue'
 import Settings from '@/data/setting'
 export default {
     data() {
-        let {state, setLoading} = inject('global')
+        let { state } = inject('global')
         return {
             showEditPopup: false,
-            showPdfPopup: true,
+            showPdfPopup: false,
             data: {},
-            state,
-            setLoading
+            state
         }
     },
     created() {
         Settings.headImg = Settings.headImg ? Settings.headImg.split(',') : []
         this.data = Settings
+        if (window.innerWidth < 1150) {
+            this.setMobile(true)
+        }
     },
     mounted() {
         // setTimeout(() => {
@@ -40,8 +42,11 @@ export default {
         // }, 300)
     },
     methods: {
-        downPDF() {
+        showPDF() {
             this.showPdfPopup = true
+        },
+        setMobile(val) {
+            this.state.isMobile = val
         }
     }
 }
@@ -78,13 +83,16 @@ export default {
         flex-wrap: wrap;
         padding: 20px 20px;
         box-sizing: border-box;
+        width: 100%;
     }
     .card{
         width: 100%;
         margin: 0;
+        position: relative;
     }
     .content{
         width: 100%;
+        margin: 0;
     }
 }
 </style>

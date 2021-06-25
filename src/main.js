@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, inject } from 'vue'
 import router from './router/index'
 import App from './App.vue'
 import 'dayjs/locale/zh-cn'
@@ -16,6 +16,8 @@ app.use(ElementPlus)
 
 import api from './api'
 app.config.globalProperties.$api = api
+
+app.config.globalProperties.$inject = inject
 
 import dayjs from 'dayjs'
 app.config.globalProperties.$dayjs = dayjs
