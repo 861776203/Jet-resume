@@ -14,7 +14,7 @@
         <EditPopup v-model:show="showEditPopup" :data="data" />
         <PdfPopup v-model:show="showPdfPopup" :data="data" />
     </div>
-</template>
+</template> 
 
 <script>
 import { inject } from 'vue'
