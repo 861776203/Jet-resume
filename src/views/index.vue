@@ -10,6 +10,7 @@
         </div>
         <Popup top="120px" tips="编辑" icon="edit" @onClick="showEditPopup = true" />
         <Popup top="180px" tips="下载PDF" icon="pdf" @onClick="showPDF" />
+        <!-- <Popup top="240px" tips="模板" icon="pdf" @onClick="showPDF" /> -->
         <!-- eslint-disable -->
         <EditPopup v-model:show="showEditPopup" :data="data" />
         <PdfPopup v-model:show="showPdfPopup" :data="data" />
@@ -24,7 +25,7 @@ export default {
         let { state } = inject('global')
         return {
             showEditPopup: false,
-            showPdfPopup: false,
+            showPdfPopup: true,
             data: {},
             state
         }

@@ -11,7 +11,7 @@
                         <span class="scholl_name">{{ item.title }}</span>
                         <span class="time">{{ `${item.time[0]} — ${item.time[1]}` }}</span>
                     </span>
-                    <p class="bottom">{{ item.text }}</p>
+                    <span class="bottom">{{ item.text }}</span>
                 </li>
             </ul>
         </div>
@@ -191,7 +191,7 @@ export default {
     .scholl_title{
         font-size: 12px;
         .top{
-            margin-bottom: 25px;
+            margin-bottom: 5px;
             .scholl_name{
                 color: #000;
                 font-size: 12px;
@@ -203,9 +203,10 @@ export default {
         .bottom{
             margin-top: 5px;
             font-size: 12px;
+            transform: scale(.8);
         }
         &:not(:last-child) {
-            margin-bottom: 20px;
+            margin-bottom: 5px;
         }
         &::before{
             content: '';
@@ -251,7 +252,7 @@ export default {
             }
         }
         &:not(:last-child) {
-            margin-bottom: 20px;
+            margin-bottom: 8px;
         }
         .demo{
             border: 1px solid;
