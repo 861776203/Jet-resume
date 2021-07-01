@@ -38,9 +38,9 @@ export default {
         }
     },
     mounted() {
-        // setTimeout(() => {
-        //     this.showEditPopup = true
-        // }, 300)
+        setTimeout(() => {
+            this.showEditPopup = true
+        }, 300)
     },
     methods: {
         showPDF() {
