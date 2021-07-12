@@ -1,5 +1,8 @@
 <template>
     <div id="resume_box">
+        <div class="corner">
+            <el-switch v-model="value1" />
+        </div>
         <div class="resume_box">
             <div class="card">
                 <CardsTemplate :data="data" />
@@ -25,9 +28,10 @@ export default {
         let { state } = inject('global')
         return {
             showEditPopup: false,
-            showPdfPopup: true,
+            showPdfPopup: false,
             data: {},
-            state
+            state,
+            value1: true
         }
     },
     created() {
@@ -38,9 +42,9 @@ export default {
         }
     },
     mounted() {
-        setTimeout(() => {
-            this.showEditPopup = true
-        }, 300)
+        // setTimeout(() => {
+        //     this.showEditPopup = true
+        // }, 300)
     },
     methods: {
         showPDF() {
@@ -56,12 +60,47 @@ export default {
 #resume_box{
     padding-bottom: 40px;
     background-image: url('../assets/images/bgs/bg1.png');
-    // background-size: 100% 100%;
+    .corner{
+        position: absolute;
+        height: 54px;
+        width: 54px;
+        left: 0;
+        top: 0;
+        transition: .6s;
+        overflow: hidden;
+        &::before{
+            position: absolute;
+            content: '';
+            height: 100%;
+            width: 100%;
+            top: -4px;
+            left: -4px;
+            border-radius: 0 0 0px 90px / 0 0 0 30px;
+            background: linear-gradient(45deg, #979595 24%, #b8b5b5 40%,#b4b1b1 43%,#b4b1b1 46%,#bebbbb 50%,#fff 50%,#fff);
+            transform: rotate(272deg);
+            box-shadow: 5px 2px 8px rgb(182, 180, 180);
+            cursor: pointer;
+        }
+        &:hover{
+            height: 90px;
+            width: 90px;
+            .el-switch{
+                opacity: 1;
+            }
+        }
+        .el-switch{
+            transform: rotate(-45deg);
+            left: 10px;
+            top: 15px;
+            opacity: 0;
+            transition: .4s;
+        }
+    }
 }
 .resume_box{
     width: 1150px;
     margin: 0 auto;
-    padding-top: 20px;
+    padding-top: 60px;
 }
 .card{
     width: 320px;

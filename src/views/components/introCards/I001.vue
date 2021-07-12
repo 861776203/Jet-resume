@@ -133,6 +133,7 @@ export default {
             }
         }
         .bottom{
+            display: block;
             margin-top: 5px;
         }
         &:not(:last-child) {
