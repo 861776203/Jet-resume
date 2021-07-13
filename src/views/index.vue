@@ -1,37 +1,59 @@
 <template>
     <div id="resume_box">
         <div class="corner">
-            <el-switch v-model="value1" />
+            <el-switch v-model="isPdf" />
         </div>
         <div class="resume_box">
-            <div class="card">
-                <CardsTemplate :data="data" />
+            <div v-if="!isPdf">
+                <div class="card">
+                    <CardsTemplate :data="data" />
+                </div>
+                <div class="content">
+                    <IntroCardsTemplate :data="data" />
+                </div>
             </div>
-            <div class="content">
-                <IntroCardsTemplate :data="data" />
-            </div>
+            <PdfBox v-else ref="pdfBox" :data="data" />
         </div>
         <Popup top="120px" tips="编辑" icon="edit" @onClick="showEditPopup = true" />
-        <Popup top="180px" tips="下载PDF" icon="pdf" @onClick="showPDF" />
+        <Popup top="180px" tips="下载PDF" icon="pdf" @onClick="downPDF" />
         <!-- <Popup top="240px" tips="模板" icon="pdf" @onClick="showPDF" /> -->
         <!-- eslint-disable -->
         <EditPopup v-model:show="showEditPopup" :data="data" />
-        <PdfPopup v-model:show="showPdfPopup" :data="data" />
     </div>
 </template>
 
 <script>
-import { inject } from 'vue'
+import { inject, ref, reactive, getCurrentInstance } from 'vue'
 import Settings from '@/data/setting'
 export default {
-    data() {
-        let { state } = inject('global')
+    setup() {
+        let { state, showLoading } = inject('global')
+        let { proxy } = getCurrentInstance()
+        let showEditPopup = ref(false)
+        let isPdf = ref(true)
+        let data = reactive({})
+
+        function downPDF() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            })
+            proxy.showLoading('正在生成PDF')
+            setTimeout(() => {
+                proxy.$refs['pdfBox'].download()
+            }, 500)
+        }
+
+        function setMobile(val) {
+            state.isMobile = val
+        }
         return {
-            showEditPopup: false,
-            showPdfPopup: false,
-            data: {},
-            state,
-            value1: true
+            showEditPopup,
+            data,
+            isPdf,
+            downPDF,
+            setMobile,
+            showLoading
         }
     },
     created() {
@@ -45,14 +67,6 @@ export default {
         // setTimeout(() => {
         //     this.showEditPopup = true
         // }, 300)
-    },
-    methods: {
-        showPDF() {
-            this.showPdfPopup = true
-        },
-        setMobile(val) {
-            this.state.isMobile = val
-        }
     }
 }
 </script>

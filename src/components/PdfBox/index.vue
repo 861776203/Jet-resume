@@ -1,25 +1,16 @@
 <template>
-    <el-dialog title="预览" :model-value="show">
-        <div class="pdf_box">
-            <div id="pdf_box">
-                <CardsTemplate :data="data" :type="'pdf'" />
-                <IntroCardsTemplate :data="data" type="pdf" />
-            </div>
-        </div>
-        <template #footer>
-            <span class="dialog-footer">
-                <el-button @click="handleClose">取 消</el-button>
-                <el-button type="primary" @click="download">保 存</el-button>
-            </span>
-        </template>
-    </el-dialog>
+    <div id="pdf_box">
+        <CardsTemplate :data="data" :type="'pdf'" />
+        <IntroCardsTemplate :data="data" type="pdf" />
+    </div>
 </template>
 
 <script>
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
+import { inject, ref, getCurrentInstance } from 'vue'
 export default {
-    name: 'PdfPopup',
+    name: 'PdfBox',
     props: {
         show: {
             type: Boolean,
@@ -32,16 +23,12 @@ export default {
             }
         }
     },
-    data() {
-        return {
-            url: location.href
-        }
-    },
-    methods: {
-        handleClose() {
-            this.$emit('update:show', false)
-        },
-        download() {
+    setup() {
+        let { closeLoading } = inject('global')
+        let { proxy } = getCurrentInstance()
+        let url = ref(location.href)
+
+        function download() {
             html2canvas(document.getElementById('pdf_box'), {
                 allowTaint: true,                                                                                                                                                                                                            
                 useCORS: true,
@@ -77,18 +64,24 @@ export default {
                         }
                     }
                 }
-                pdf.save('www.pdf')
+                proxy.closeLoading()
+                // pdf.save('www.pdf')
             })
+        }
+
+        return {
+            url,
+            download,
+            closeLoading
         }
     }
 }
 </script>
 <style lang='scss' scoped>
-.pdf_box{
+#pdf_box{
     border: 1px solid #ccc;
-    width: 400px;
-    height: 571px;
+    width: 794px;
     margin: 0 auto;
-    overflow-y: scroll;
+    background: #fff;
 }
 </style>
