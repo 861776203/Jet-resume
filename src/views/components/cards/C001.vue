@@ -145,8 +145,4 @@ export default {
         }
     }
 }
-
-.C001-pdf{
-    
-}
 </style>

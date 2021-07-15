@@ -30,7 +30,7 @@ export default {
 
         function download() {
             html2canvas(document.getElementById('pdf_box'), {
-                allowTaint: true,                                                                                                                                                                                                            
+                allowTaint: true,
                 useCORS: true,
                 backgroundColor: null
             }).then(canvas => {
@@ -65,7 +65,7 @@ export default {
                     }
                 }
                 proxy.closeLoading()
-                // pdf.save('www.pdf')
+                pdf.save('www.pdf')
             })
         }
 
