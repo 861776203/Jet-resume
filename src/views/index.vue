@@ -16,9 +16,10 @@
         </div>
         <Popup top="120px" tips="编辑" icon="edit" @onClick="showEditPopup = true" />
         <Popup top="180px" tips="下载PDF" icon="pdf" @onClick="downPDF" />
-        <!-- <Popup top="240px" tips="模板" icon="pdf" @onClick="showPDF" /> -->
+        <Popup top="240px" tips="模板" icon="template" @onClick="showTempPopup = true" />
         <!-- eslint-disable -->
         <EditPopup v-model:show="showEditPopup" :data="data" />
+        <TempPopup v-model:show="showTempPopup" />
     </div>
 </template>
 
@@ -30,10 +31,15 @@ export default {
         let { state, showLoading } = inject('global')
         let { proxy } = getCurrentInstance()
         let showEditPopup = ref(false)
-        let isPdf = ref(true)
+        let showTempPopup = ref(true)
+        let isPdf = ref(false)
         let data = reactive({})
 
         function downPDF() {
+            if (!isPdf.value) {
+                proxy.$message.warning('请先点击左上角切换PDF模式')
+                return
+            }
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
@@ -49,6 +55,7 @@ export default {
         }
         return {
             showEditPopup,
+            showTempPopup,
             data,
             isPdf,
             downPDF,

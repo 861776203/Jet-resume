@@ -81,7 +81,7 @@ export default {
 </script>
 <style lang='scss' scoped>
 .C001{
-    padding: 20px 50px;
+    padding: 20px 15px;
     font-size: 16px;
     .name{
         text-align: center;
@@ -144,5 +144,8 @@ export default {
             }
         }
     }
+}
+.C001-pdf{
+    padding: 20px 50px;
 }
 </style>
