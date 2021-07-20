@@ -21,7 +21,7 @@ export default {
             default: () => {
                 return {}
             }
-        }
+        }                                                 
     },
     setup() {
         let { closeLoading } = inject('global')

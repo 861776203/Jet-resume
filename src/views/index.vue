@@ -69,6 +69,15 @@ export default {
         if (window.innerWidth < 1150) {
             this.setMobile(true)
         }
+        function* fn() {
+            let a = yield 'hello'
+            yield
+            console.log(a)
+        }
+        let iter = fn()
+        console.log(iter.next())
+        console.log(iter.next(2))
+        console.log(iter.next())
     },
     mounted() {
         // setTimeout(() => {
