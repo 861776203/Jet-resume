@@ -9,17 +9,8 @@
     >
         <div class="temp_box">
             <div class="left">
-                <div class="temp_img_box">
-                    <img src="../../assets/images/bgs/bg1.png">
-                </div>
-                <div class="temp_img_box">
-                    <img src="../../assets/images/bgs/bg1.png">
-                </div>
-                <div class="temp_img_box">
-                    <img src="../../assets/images/bgs/bg1.png">
-                </div>
-                <div class="temp_img_box">
-                    <img src="../../assets/images/bgs/bg1.png">
+                <div v-for="(item,index) in tempImages" :key="index" class="temp_img_box" @click="onShowTemp">
+                    <img :src="item.url">
                 </div>
             </div>
             <div class="right">
@@ -33,7 +24,7 @@
 </template>
 
 <script>
-import { getCurrentInstance, readonly, ref } from 'vue'
+import { getCurrentInstance, readonly, ref, reactive } from 'vue'
 export default {
     name: 'TempPopup',
     props: {
@@ -55,10 +46,20 @@ export default {
         ])
         let sideIndex = ref(0)
 
+        // 模板图片
+        let tempImages = reactive([
+            {url: require('../../assets/images/bgs/bg1.png')}
+        ])
+        function onShowTemp() {
+            console.log('ao')
+        }
+
         return {
             handleClose,
             sideBarData,
-            sideIndex
+            sideIndex,
+            tempImages,
+            onShowTemp
         }
     }
 }
