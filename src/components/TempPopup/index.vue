@@ -12,7 +12,7 @@
                 <div v-for="(item,index) in tempImages" :key="index" class="temp_img_box" @click="onShowTemp">
                     <img :src="item.url">
                 </div>
-            </div>
+            </div> 
             <div class="right">
                 <div v-for="(item, index) in sideBarData" :key="index" :class="['sidebar', index===sideIndex?'sidebar-active':'']" @click="sideIndex = index">
                     <i :class="item.icon" />
