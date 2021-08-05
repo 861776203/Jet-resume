@@ -1,5 +1,5 @@
 <template>
-    <div v-loading="state.loading">
+    <div>
         <RouterView />
     </div>
 </template>

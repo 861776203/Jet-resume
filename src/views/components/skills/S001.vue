@@ -64,14 +64,10 @@ export default {
     display: flex;
     .rate_box{
         width: 31%;
+        margin-right: 2%;
         .rate_title{
-            font-size: 12px;
-            transform: scale(.8);
-            width: 70px;
-            text-align: right;
-        }
-        .rate_values{
-            height: 8px;
+            width: auto;
+            margin-right: 20px;
         }
     }
 }

@@ -145,51 +145,7 @@ export default {
         }
     }
 }
-
 .C001-pdf{
-    padding: 10px 7px;
-    .avatar{
-        width: 60px!important;
-        height: 60px!important;
-    }
-    .name,.address{
-        font-size: 12px;
-        transform: scale(.8);
-    }
-    .name{
-        margin-top: 0;
-        margin-bottom: 0;
-    }
-    .address{
-        margin-bottom: 3px;
-    }
-    .basic_info{
-        margin-top: 8px;
-        .title_box{
-            padding-bottom: 4px;
-            .icon{
-                width: 9px;
-                height: 9px;
-                margin-right: 2px;
-            }
-            p{
-                font-size: 12px;
-                transform: scale(.8);
-                transform-origin: 0 0;
-            }
-        }
-        .info_item{
-            font-size: 12px;
-            margin-top: 4px;
-            p{
-                width: 60px;
-                transform: scale(.8);
-            }
-            span{
-                transform: scale(.8);
-                margin-left: -20px;
-            }
-        }
-    }
+    padding: 20px 50px;
 }
 </style>

@@ -11,7 +11,7 @@
                         <span class="scholl_name">{{ item.title }}</span>
                         <span class="time">{{ `${item.time[0]} — ${item.time[1]}` }}</span>
                     </span>
-                    <p class="bottom">{{ item.text }}</p>
+                    <span class="bottom">{{ item.text }}</span>
                 </li>
             </ul>
         </div>
@@ -133,6 +133,7 @@ export default {
             }
         }
         .bottom{
+            display: block;
             margin-top: 5px;
         }
         &:not(:last-child) {
@@ -167,100 +168,6 @@ export default {
     }
 }
 .I001-pdf{
-    padding: 0 7px 10px 7px;
-    .basic_info{
-        margin-top: 8px!important;
-        .title_box{
-            padding-bottom: 4px;
-            .icon{
-                width: 9px;
-                height: 9px;
-                margin-right: 2px;
-            }
-            p{
-                font-size: 12px;
-                transform: scale(.8);
-                transform-origin: 0 0;
-            }
-        }
-    }
-    ul{
-        padding-left: 15px!important;
-        list-style-type: none;
-    }
-    .scholl_title{
-        font-size: 12px;
-        .top{
-            margin-bottom: 25px;
-            .scholl_name{
-                color: #000;
-                font-size: 12px;
-            }
-            .time{
-                font-size: 12px;
-            }
-        }
-        .bottom{
-            margin-top: 5px;
-            font-size: 12px;
-        }
-        &:not(:last-child) {
-            margin-bottom: 20px;
-        }
-        &::before{
-            content: '';
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: #000;
-            position: absolute;
-            left: -8px;
-            top: 12px;
-        }
-    }
-    .job_box, .project_box{
-        .info{
-            font-size: 12px;
-            position: relative;
-            &::before{
-                content: '';
-                width: 4px;
-                height: 4px;
-                border-radius: 50%;
-                background: #000;
-                position: absolute;
-                left: -8px;
-                top: 9px;
-            }
-        }
-        .describe_info{
-            font-size: 12px;
-            li{
-                margin-top: 4px;
-                position: relative;
-                &::before{
-                    content: '';
-                    width: 3px;
-                    height: 3px;
-                    border-radius: 50%;
-                    border: 1px solid #000;
-                    position: absolute;
-                    left: -8px;
-                    top: 9px;
-                }
-            }
-        }
-        &:not(:last-child) {
-            margin-bottom: 20px;
-        }
-        .demo{
-            border: 1px solid;
-            border-radius: 4px;
-            padding: 0 5px;
-            font-size: 13px;
-            margin-left: 10px;
-            cursor: pointer;
-        }
-    }
+    padding: 0 50px 40px 50px;
 }
 </style>
