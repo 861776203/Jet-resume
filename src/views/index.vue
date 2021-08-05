@@ -48,7 +48,7 @@ export default {
         setMobile(val) {
             this.state.isMobile = val
         }
-    }
+    } 
 }
 </script>
 <style lang='scss' scoped>
