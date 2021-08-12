@@ -9,7 +9,7 @@
     >
         <div class="temp_box">
             <div class="left">
-                <div v-for="(item,index) in tempImages" :key="index" class="temp_img_box" @click="onShowTemp">
+                <div v-for="(item,index) in tempImages" :key="index" class="temp_img_box" @click="onShowTemp(item.url)">
                     <img :src="item.url">
                 </div>
             </div> 
@@ -35,6 +35,7 @@ export default {
     },
     setup() {
         let { proxy } = getCurrentInstance()
+        let { state } = proxy.$inject('global')
         function handleClose() {
             proxy.$emit('update:show', false)
         }
@@ -48,10 +49,11 @@ export default {
 
         // 模板图片
         let tempImages = reactive([
-            {url: require('../../assets/images/bgs/bg1.png')}
+            {url: require('../../assets/images/bgs/bg1.png')},
+            {url: require('../../assets/images/bgs/bg2.png')}
         ])
-        function onShowTemp() {
-            console.log('ao')
+        function onShowTemp(url) {
+            state.bgImg = url
         }
 
         return {

@@ -1,5 +1,5 @@
 <template>
-    <div id="resume_box">
+    <div id="resume_box" :style="`background-image: url(${bgImg});`">
         <div class="corner">
             <el-switch v-model="isPdf" />
         </div>
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { inject, ref, reactive, getCurrentInstance } from 'vue'
+import { inject, ref, reactive, getCurrentInstance, computed } from 'vue'
 import Settings from '@/data/setting'
 export default {
     setup() {
@@ -53,6 +53,10 @@ export default {
         function setMobile(val) {
             state.isMobile = val
         }
+        // 背景图片
+        const bgImg = computed(() => {
+            return state.bgImg
+        })
         return {
             showEditPopup,
             showTempPopup,
@@ -60,7 +64,8 @@ export default {
             isPdf,
             downPDF,
             setMobile,
-            showLoading
+            showLoading,
+            bgImg
         }
     },
     created() {
@@ -80,7 +85,6 @@ export default {
 <style lang='scss' scoped>
 #resume_box{
     padding-bottom: 40px;
-    background-image: url('../assets/images/bgs/bg1.png');
     .corner{
         position: absolute;
         height: 54px;

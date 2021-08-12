@@ -2,7 +2,8 @@ import { reactive } from 'vue'
 export default function global() {
     const state = reactive({
         loading: false,
-        isMobile: false
+        isMobile: false,
+        bgImg: ''
     })
 
     function showLoading(msg, time) {
