@@ -79,19 +79,7 @@ export default {
         // setTimeout(() => {
         //     this.showEditPopup = true
         // }, 300)
-<<<<<<< HEAD
-    },
-    methods: {
-        showPDF() {
-            this.showPdfPopup = true
-        },
-        setMobile(val) {
-            this.state.isMobile = val
-        }
-    } 
-=======
     }
->>>>>>> e1c15dbd30c3aa260048cace232860f118e5ad1d
 }
 </script>
 <style lang='scss' scoped>
