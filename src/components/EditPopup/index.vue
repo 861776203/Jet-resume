@@ -209,7 +209,6 @@ export default {
         onSubmit() {
             this.$refs['form'].validate(valid => {
                 if (valid) {
-                    this.form.headImg = this.form.headImg.join(',')
                     this.$api.post('/updateinfo', this.form).then(() => {
                         this.$message.success('保存成功')
                         this.$emit('update:show', false)

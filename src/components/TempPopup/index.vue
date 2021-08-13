@@ -9,7 +9,7 @@
     >
         <div class="temp_box">
             <div class="left">
-                <div v-for="(item,index) in tempImages" :key="index" class="temp_img_box" @click="onShowTemp(item.url)">
+                <div v-for="(item,index) in tempImages" :key="index" :class="['temp_img_box', state.bgImg == item.url ? 'temp_img_box_check':'']" @click="onShowTemp(item.url)">
                     <img :src="item.url">
                 </div>
             </div> 
@@ -25,12 +25,19 @@
 
 <script>
 import { getCurrentInstance, readonly, ref, reactive } from 'vue'
+import { deepClone } from '@/util'
 export default {
     name: 'TempPopup',
     props: {
         show: {
             type: Boolean,
             default: false
+        },
+        data: {
+            type: Object,
+            default: () => {
+                return {}
+            }
         }
     },
     setup() {
@@ -49,11 +56,16 @@ export default {
 
         // 模板图片
         let tempImages = reactive([
-            {url: require('../../assets/images/bgs/bg1.png')},
-            {url: require('../../assets/images/bgs/bg2.png')}
+            {url: require('@/assets/images/bgs/bg1.png')},
+            {url: require('@/assets/images/bgs/bg2.png')}
         ])
         function onShowTemp(url) {
             state.bgImg = url
+            let data = deepClone(proxy.data)
+            data.bgImg = url
+            proxy.$api.post('/updateinfo', data).then(() => {
+                proxy.$message.success('保存成功')
+            })
         }
 
         return {
@@ -61,7 +73,8 @@ export default {
             sideBarData,
             sideIndex,
             tempImages,
-            onShowTemp
+            onShowTemp,
+            state
         }
     }
 }
@@ -97,6 +110,9 @@ $rightWidth: 73px;
             &:hover{
                 border-color:#1593ff;
             }
+        }
+        .temp_img_box_check{
+            border-color:#1593ff;
         }
     }
     .right{

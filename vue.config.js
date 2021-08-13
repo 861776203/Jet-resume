@@ -44,6 +44,7 @@ module.exports = {
             app.use(bodyParser.urlencoded({ extended: true }))
             app.use(bodyParser.json())
             app.post('/api/updateinfo', (req, res) => {
+                req.body.headImg = req.body.headImg.join(',')
                 let data = JSON.stringify(req.body)
                 // 图片垃圾回收
                 let filedir = fs.readdirSync('./src/data/upload')

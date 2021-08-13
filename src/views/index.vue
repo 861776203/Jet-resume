@@ -19,7 +19,7 @@
         <Popup top="240px" tips="模板" icon="template" @onClick="showTempPopup = true" />
         <!-- eslint-disable -->
         <EditPopup v-model:show="showEditPopup" :data="data" />
-        <TempPopup v-model:show="showTempPopup" />
+        <TempPopup v-model:show="showTempPopup" :data="data" />
     </div>
 </template>
 
@@ -55,7 +55,7 @@ export default {
         }
         // 背景图片
         const bgImg = computed(() => {
-            return state.bgImg
+            return state.bgImg || Settings.bgImg
         })
         return {
             showEditPopup,
@@ -65,11 +65,13 @@ export default {
             downPDF,
             setMobile,
             showLoading,
-            bgImg
+            bgImg,
+            state
         }
     },
     created() {
         Settings.headImg = Settings.headImg ? Settings.headImg.split(',') : []
+        this.state.bgImg = Settings.bgImg
         this.data = Settings
         if (window.innerWidth < 1150) {
             this.setMobile(true)
